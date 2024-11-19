@@ -374,25 +374,26 @@ game:GetService("RunService").RenderStepped:Connect(function()
             end
             
             if ESP.ActiveItemEnabled then
-                local weapon = player.Character.Animator.EquippedItem.ItemName.Value ~= "" and player.Character.Animator.EquippedItem.ItemName.Value or "Hands"
+                local primary = player.Stats.Primary.Value
+                local secondary = player.Stats.Secondary.Value
+                local distance_text = string.format("[%d%s]", display_distance, current.suffix)
                 
                 objects.active_item.Position = Vector2.new(box.X + (box.W / 2), box.Y + box.H + 5)
                 objects.active_item.Color = ESP.ActiveItemColor
                 objects.active_item.Transparency = 1 - ESP.ActiveItemTransparency
-                objects.active_item.Text = string.format("[%s]", weapon)
+                objects.active_item.Text = string.format("[%s]\n[%s]", primary, secondary)
                 objects.active_item.Visible = true
                 
-                -- Update distance position to be below active item
                 if ESP.DistanceEnabled then
-                    objects.distance.Position = Vector2.new(box.X + (box.W / 2), box.Y + box.H + 20)
+                    objects.distance.Position = Vector2.new(box.X + (box.W / 2), box.Y + box.H + 35)
+                    objects.distance.Text = distance_text
                 end
             else
                 objects.active_item.Visible = false
-                -- Reset distance position if active item is disabled
                 if ESP.DistanceEnabled then
                     objects.distance.Position = Vector2.new(box.X + (box.W / 2), box.Y + box.H + 5)
                 end
-            end            
+            end                     
 
             --[[if ESP.ViewTracerEnabled then
                 local camera_direction = player.Character.Head.CFrame.lookVector * ESP.ViewTracerLength
