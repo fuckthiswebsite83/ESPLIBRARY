@@ -41,6 +41,10 @@ local ESP = {
     ViewTracerTransparency = 0,
     ViewTracerLength = 10,--]]
     
+    ActiveItemEnabled = false,
+    ActiveItemColor = Color3.fromRGB(255, 255, 255),
+    ActiveItemTransparency = 0,
+
     MaxDistance = 2000,
     MeasurementType = "Roblox"
 }
@@ -231,6 +235,12 @@ game:GetService("RunService").RenderStepped:Connect(function()
                     Color = Color3.new(0, 0, 0),
                     Thickness = 1,
                     Filled = false
+                }),
+                active_item = draw("Text", {
+                    Center = true,
+                    Outline = true,
+                    Size = 13,
+                    Font = 2
                 })
             }
             
@@ -363,6 +373,27 @@ game:GetService("RunService").RenderStepped:Connect(function()
                 end
             end
             
+            if ESP.ActiveItemEnabled then
+                local weapon = player.Character.Animator.EquippedItem.ItemName.Value ~= "" and player.Character.Animator.EquippedItem.ItemName.Value or "Hands"
+                
+                objects.active_item.Position = Vector2.new(box.X + (box.W / 2), box.Y + box.H + 5)
+                objects.active_item.Color = ESP.ActiveItemColor
+                objects.active_item.Transparency = 1 - ESP.ActiveItemTransparency
+                objects.active_item.Text = string.format("[%s]", weapon)
+                objects.active_item.Visible = true
+                
+                -- Update distance position to be below active item
+                if ESP.DistanceEnabled then
+                    objects.distance.Position = Vector2.new(box.X + (box.W / 2), box.Y + box.H + 20)
+                end
+            else
+                objects.active_item.Visible = false
+                -- Reset distance position if active item is disabled
+                if ESP.DistanceEnabled then
+                    objects.distance.Position = Vector2.new(box.X + (box.W / 2), box.Y + box.H + 5)
+                end
+            end            
+
             --[[if ESP.ViewTracerEnabled then
                 local camera_direction = player.Character.Head.CFrame.lookVector * ESP.ViewTracerLength
                 local parameters = RaycastParams.new()
