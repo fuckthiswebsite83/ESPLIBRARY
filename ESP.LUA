@@ -2,36 +2,36 @@ local current_camera = game:GetService("Workspace").CurrentCamera
 local local_player = game:GetService("Players").LocalPlayer
 
 local ESP = {
-    Enabled = true,
+    Enabled = false,
     BoxType = "Static", -- dynamic, static
     
-    BoxEnabled = true,
+    BoxEnabled = false,
     BoxColor = Color3.fromRGB(255, 255, 255),
     BoxTransparency = 0,
     
-    HealthBarEnabled = true,
+    HealthBarEnabled = false,
     HealthBarColor = Color3.fromRGB(0, 255, 0),
     HealthBarTransparency = 0,
-    HealthBarBoostEnabled = true,
+    HealthBarBoostEnabled = false,
     HealthBarBoostColor = Color3.fromRGB(0, 175, 0),
     
-    HealthTextEnabled = true,
+    HealthTextEnabled = false,
     HealthTextColor = Color3.fromRGB(0, 0, 0),
     
-    SkeletonEnabled = true,
+    SkeletonEnabled = false,
     SkeletonColor = Color3.fromRGB(255, 255, 255),
     SkeletonTransparency = 0,
     
-    NameEnabled = true,
+    NameEnabled = false,
     NameColor = Color3.fromRGB(255, 255, 255),
     NameTransparency = 0,
     DisplayNames = false,
     
-    DistanceEnabled = true,
+    DistanceEnabled = false,
     DistanceColor = Color3.fromRGB(255, 255, 255),
     DistanceTransparency = 0,
     
-    OOFArrowsEnabled = true,
+    OOFArrowsEnabled = false,
     OOFArrowsColor = Color3.fromRGB(255, 255, 255),
     OOFArrowsTransparency = 0,
     OOFArrowsRadius = 100,
@@ -269,8 +269,8 @@ game:GetService("RunService").RenderStepped:Connect(function()
             end
             
             if ESP.HealthBarEnabled then
-                local health = player.Character.Humanoid.Health
-                local max_health = player.Character.Humanoid.MaxHealth
+                local health = game.PlaceId == 863266079 and math.floor(player.Stats.Health.Value) or player.Character.Humanoid.Health
+                local max_health = game.PlaceId == 863266079 and 100 or player.Character.Humanoid.MaxHealth
                 local health_percent = health / max_health
                 
                 objects.health_bar_outside.Position = Vector2.new(box.X - 6, box.Y - 1)
