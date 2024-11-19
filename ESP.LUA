@@ -374,26 +374,28 @@ game:GetService("RunService").RenderStepped:Connect(function()
             end
             
             if ESP.ActiveItemEnabled then
-                local primary = player.Stats.Primary.Value
-                local secondary = player.Stats.Secondary.Value
-                local distance_text = string.format("[%d%s]", display_distance, current.suffix)
-                
-                objects.active_item.Position = Vector2.new(box.X + (box.W / 2), box.Y + box.H + 5)
-                objects.active_item.Color = ESP.ActiveItemColor
-                objects.active_item.Transparency = 1 - ESP.ActiveItemTransparency
-                objects.active_item.Text = string.format("[%s]\n[%s]", primary, secondary)
-                objects.active_item.Visible = true
-                
-                if ESP.DistanceEnabled then
-                    objects.distance.Position = Vector2.new(box.X + (box.W / 2), box.Y + box.H + 35)
-                    objects.distance.Text = distance_text
+                if player:FindFirstChild("Stats") then
+                    local primary = player.Stats:FindFirstChild("Primary") and player.Stats.Primary.Value or ""
+                    local secondary = player.Stats:FindFirstChild("Secondary") and player.Stats.Secondary.Value or ""
+                    local distance_text = string.format("[%d%s]", display_distance, current.suffix)
+                    
+                    objects.active_item.Position = Vector2.new(box.X + (box.W / 2), box.Y + box.H + 5)
+                    objects.active_item.Color = ESP.ActiveItemColor
+                    objects.active_item.Transparency = 1 - ESP.ActiveItemTransparency
+                    objects.active_item.Text = string.format("[%s]\n[%s]", primary, secondary)
+                    objects.active_item.Visible = true
+                    
+                    if ESP.DistanceEnabled then
+                        objects.distance.Position = Vector2.new(box.X + (box.W / 2), box.Y + box.H + 35)
+                        objects.distance.Text = distance_text
+                    end
                 end
             else
                 objects.active_item.Visible = false
                 if ESP.DistanceEnabled then
                     objects.distance.Position = Vector2.new(box.X + (box.W / 2), box.Y + box.H + 5)
                 end
-            end                     
+            end                 
 
             --[[if ESP.ViewTracerEnabled then
                 local camera_direction = player.Character.Head.CFrame.lookVector * ESP.ViewTracerLength
