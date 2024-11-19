@@ -101,6 +101,19 @@ do
     end
 end
 
+function _Periphean.UpdateESPConfig(newConfig)
+    for key, value in pairs(newConfig) do
+        if type(value) == "table" then
+            _Periphean.ESPConfig[key] = _Periphean.ESPConfig[key] or {}
+            for subKey, subValue in pairs(value) do
+                _Periphean.ESPConfig[key][subKey] = subValue
+            end
+        else
+            _Periphean.ESPConfig[key] = value
+        end
+    end
+end
+
 do
     local ScreenGui = Functions:Create("ScreenGui", {
         Parent = CoreGui,
